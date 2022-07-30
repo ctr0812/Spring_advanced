@@ -31,6 +31,7 @@ public class ProductController {
         Long userId = userDetails.getUser().getId();
 
         Product product = productService.createProduct(requestDto, userId);
+
         // 응답 보내기
         return product;
     }
@@ -53,8 +54,10 @@ public class ProductController {
             @RequestParam("isAsc") boolean isAsc,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
+        // 로그인 되어 있는 회원 테이블의 ID
         Long userId = userDetails.getUser().getId();
         page = page - 1;
+
         return productService.getProducts(userId, page, size, sortBy, isAsc);
     }
 
@@ -71,7 +74,6 @@ public class ProductController {
         return productService.getAllProducts(page, size, sortBy, isAsc);
     }
 
-    // 상품에 폴더 추가
     // 상품에 폴더 추가
     @PostMapping("/api/products/{productId}/folder")
     public Long addFolder(

@@ -1,6 +1,7 @@
 package com.sparta.springcore.controller;
 
 import com.sparta.springcore.dto.FolderRequestDto;
+import com.sparta.springcore.exception.RestApiException;
 import com.sparta.springcore.model.Folder;
 import com.sparta.springcore.model.Product;
 import com.sparta.springcore.model.User;
@@ -9,6 +10,8 @@ import com.sparta.springcore.service.FolderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +34,11 @@ public class FolderController {
 
         List<Folder> folders = folderService.addFolders(folderNames, user);
         return folders;
+
     }
 
     @GetMapping("api/folders")
-    public List<Folder> getFolders(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public List<Folder> getFolders(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return folderService.getFolders(userDetails.getUser());
     }
 
@@ -46,8 +50,8 @@ public class FolderController {
             @RequestParam String sortBy,
             @RequestParam boolean isAsc,
             @AuthenticationPrincipal UserDetailsImpl userDetails
-    ){
-        page = page -1;
+    ) {
+        page = page - 1;
 
         return folderService.getProductsInFolder(folderId,
                 page,
@@ -58,3 +62,4 @@ public class FolderController {
     }
 
 }
+
